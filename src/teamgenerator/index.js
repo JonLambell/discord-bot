@@ -14,7 +14,7 @@ const GetRandomPlayer = (removeOnGet = true) => {
 
 const PlayersLeft = () => !!Players.length;
 
-const Teams = {};
+let Teams = {};
 const SetTeams = (numberOfTeams, maxPlayers = 4) => {
 	for(let i = 0; i < numberOfTeams; i+=1) {
   	Teams[`Team${i+1}`] = {
