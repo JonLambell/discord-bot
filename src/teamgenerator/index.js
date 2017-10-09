@@ -1,15 +1,3 @@
-const VoiceUsers = [
-	'User1',
-  'User2',
-  'User3',
-  'User4',
-  'User5',
-  'Player6',
-  'Player7'
-];
-
-const AutoFetchUsers = () => VoiceUsers;
-
 let Players = [];
 
 const SetPlayers = (players) => Players = players;
@@ -43,8 +31,8 @@ const AddPlayerToTeam = (player, team) => {
 }
 
 const GenerateTeams = (
-	numberOfTeams = 2,
-  users = AutoFetchUsers()
+	numberOfTeams,
+    users
 ) => {
 	SetPlayers(users);
   SetTeams(numberOfTeams, Math.ceil(Players.length/numberOfTeams))
