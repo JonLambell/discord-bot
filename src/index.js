@@ -110,47 +110,51 @@ const GetVoicePlayers = (message) => {
 };
 
 client.on("message", (message) => {
-  const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
-  const command = args.shift().toLowerCase();
+  try {
+    const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+    const command = args.shift().toLowerCase();
 
-  if(!message.content.startsWith(config.prefix) || message.author.bot) return;
+    if(!message.content.startsWith(config.prefix) || message.author.bot) return;
 
-  if (command === 'teams') {
-    const numberOfTeams = parseInt(args.shift(), 10);
+    if (command === 'teams') {
+      const numberOfTeams = parseInt(args.shift(), 10);
 
-    let playerList;
+      let playerList;
 
-    if (args.length < 1) {
-      try {
-        playerList = GetVoicePlayers(message)
-      } catch (e) {
-        message.channel.send('You need to be in a voice channel, idiot...');
-        message.channel.send('Or you can send a list of names (seperated by a space) i.e. !teams 2 Player1 Player2 Player3');
+      if (args.length < 1) {
+        try {
+          playerList = GetVoicePlayers(message)
+        } catch (e) {
+          message.channel.send('You need to be in a voice channel, idiot...');
+          message.channel.send('Or you can send a list of names (seperated by a space) i.e. !teams 2 Player1 Player2 Player3');
 
-        return;
+          return;
+        }
+      } else {
+        playerList = args;
       }
-    } else {
-      playerList = args;
+
+
+
+      const Teams = TeamGen.GenerateTeams(
+        numberOfTeams || 2,
+        playerList
+      );
+
+      message.channel.send(TeamsToString(Teams));
     }
 
-    
+    if (command === 'test') {
 
-    const Teams = TeamGen.GenerateTeams(
-      numberOfTeams || 2,
-      playerList
-    );
-
-    message.channel.send(TeamsToString(Teams));
-  }
-
-  if (command === 'test') {
-
-    const numberOfTeams = parseInt(args.shift(), 10);
-    const Teams = TeamGen.GenerateTeams(
-      numberOfTeams || 2,
-      GetVoicePlayers(message)
-    );
-    message.channel.send(TeamsToString(Teams));
+      const numberOfTeams = parseInt(args.shift(), 10);
+      const Teams = TeamGen.GenerateTeams(
+        numberOfTeams || 2,
+        GetVoicePlayers(message)
+      );
+      message.channel.send(TeamsToString(Teams));
+    }
+  } catch(e) {
+    return;
   }
 });
 
