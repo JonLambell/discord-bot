@@ -34,6 +34,7 @@ const GenerateTeams = (
 	numberOfTeams,
     users
 ) => {
+	Teams = {};
 	SetPlayers(users);
   SetTeams(numberOfTeams, Math.ceil(Players.length/numberOfTeams))
 
