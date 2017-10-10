@@ -112,7 +112,9 @@ const GetVoicePlayers = (message) => {
 const SendToChannel = (originalMessage, data) => {
   const responseMessage = originalMessage.channel.send(data);
   responseMessage.resolve((message) => {
+    console.log('Resolved');
     if (config.autocleanup > 0) {
+      console.log('attempting a delete...');
       client.deleteMessage(message, {
         wait: config.autocleanup*1000
       }, (error) => {
