@@ -195,7 +195,7 @@ client.on("message", (message) => {
     }
 
     if (command === 'loot' || command === 'graveh') {
-      SendToChannel(message, `*sprints and loots ${args[0] || 'everything'} before ${message.author.toString()} can get there*`);
+      SendToChannel(message, `*sprints and loots ${args.join(' ') || 'everything'} before ${message.author.toString()} can get there*`);
     }
 
 
