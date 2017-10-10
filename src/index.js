@@ -109,6 +109,17 @@ const GetVoicePlayers = (message) => {
   }
 };
 
+const SendToChannel = (channel, data, originalCommand = null) => {
+  const responseMessage = channel.send(data);
+  
+  if (config.autocleanup > 0) {
+    setTimeout(function () {
+      console.log(responseMessage);
+      console.log(originalCommand);
+    }, config.autocleanup*1000);
+  }
+};
+
 client.on("message", (message) => {
   try {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
@@ -140,8 +151,9 @@ client.on("message", (message) => {
         numberOfTeams || 2,
         playerList
       );
-
-      message.channel.send(TeamsToString(Teams));
+      
+      SendToChannel(message.channel, TeamsToString(), message.id);
+      // message.channel.send(TeamsToString(Teams));
     }
 
     if (command === 'test') {
