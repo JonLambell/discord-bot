@@ -144,6 +144,9 @@ client.on("message", (message) => {
       message.author.bot ||
       (config.restrictusage && (!isUser || !isAdmin))
     ) {
+      console.log(`RestrictUsage: ${config.restrictusage}`);
+      console.log(`isUser: ${isUser}`);
+      console.log(`isAdmin: ${isAdmin}`);
       return;
     }
 
