@@ -225,6 +225,10 @@ client.on("message", (message) => {
       SendToChannel(message, `*sprints and loots ${args.join(' ') || 'everything'} before ${message.author.toString()} can get there*`);
     }
 
+    if (command === 'ping') {
+      SendToChannel(message, 'pong!', true);
+    }
+
 
   } catch(e) {
     console.log(e);
