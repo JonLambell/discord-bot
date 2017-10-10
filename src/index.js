@@ -139,9 +139,6 @@ client.on("message", (message) => {
     const isAdmin = message.channel.permissionsFor(message.member).has("ADMINISTRATOR");
     const isUser = message.member.roles.has(GetRoleID(message.guild, config.rolename));
 
-    console.log(`Admin: ${isAdmin}`);
-    console.log(`User: ${isUser}`);
-
     if(!message.content.startsWith(config.prefix) || message.author.bot || (!isUser && config.restrictusage && !isAdmin)) return;
 
     if (command === 'teams') {
