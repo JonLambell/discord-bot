@@ -1,4 +1,4 @@
 {
     "prefix": "!",
-    "autocleanup": 5
+    "autocleanup": 300
 }
