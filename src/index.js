@@ -1,9 +1,10 @@
 import Discord from 'discord.js';
 import fs from 'fs';
-import config from './config.json';
+import configFile from './config.json';
 import TeamGen from './teamgenerator';
 
 const client = new Discord.Client();
+let config = configFile;
 
 client.on("ready", () => {
   console.log("I am ready!");
