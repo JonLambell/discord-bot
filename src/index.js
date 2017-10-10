@@ -125,7 +125,15 @@ const SendToChannel = (originalMessage, data, autoDeleteable = false) => {
   });
 };
 
-const GetRoleID = (guild, roleName) => guild.roles.find("name", roleName).id;
+const GetRoleID = (guild, roleName) => {
+  const role = guild.roles.find("name", roleName);
+
+  if (role) {
+    return role.id;
+  } else {
+    return false;
+  }
+};
 
 const UpdateConfig = (newConfig) => {
   config = newConfig;
