@@ -147,8 +147,6 @@ client.on("message", (message) => {
       return;
     }
 
-    console.log(`Executing command: ${command} with args: ${args.join(' ')}`);
-
     if (command === 'teams') {
       const numberOfTeams = parseInt(args.shift(), 10);
 
@@ -221,6 +219,7 @@ client.on("message", (message) => {
 
 
   } catch(e) {
+    console.log(e);
     return;
   }
 });
