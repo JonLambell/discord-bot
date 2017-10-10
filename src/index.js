@@ -153,7 +153,7 @@ client.on("message", (message) => {
         playerList
       );
       console.log('sending message');
-      SendToChannel(message.channel, TeamsToString(), message.id);
+      SendToChannel(message.channel, TeamsToString(Teams), message.id);
       // message.channel.send(TeamsToString(Teams));
     }
 
