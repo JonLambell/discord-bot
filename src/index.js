@@ -144,11 +144,10 @@ client.on("message", (message) => {
       message.author.bot ||
       (config.restrictusage && (!isUser || !isAdmin))
     ) {
-      console.log(`RestrictUsage: ${config.restrictusage}`);
-      console.log(`isUser: ${isUser}`);
-      console.log(`isAdmin: ${isAdmin}`);
       return;
     }
+
+    console.log(`Executing command: ${command} with args: ${args.join(' ')}`);
 
     if (command === 'teams') {
       const numberOfTeams = parseInt(args.shift(), 10);
