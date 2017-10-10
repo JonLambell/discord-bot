@@ -142,7 +142,7 @@ client.on("message", (message) => {
     console.log(`Admin: ${isAdmin}`);
     console.log(`User: ${isUser}`);
 
-    if(!message.content.startsWith(config.prefix) || message.author.bot || (!isUser && config.restrictusage)) return;
+    if(!message.content.startsWith(config.prefix) || message.author.bot || (!isUser && config.restrictusage && !isAdmin)) return;
 
     if (command === 'teams') {
       const numberOfTeams = parseInt(args.shift(), 10);
