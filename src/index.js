@@ -190,7 +190,7 @@ client.on("message", (message) => {
           break;
         }
         case 'restrictusage': {
-          newConfig.restrictusage = args[1];
+          newConfig.restrictusage = (args[1] === 'true');
           hasUpdated = true;
           break;
         }
