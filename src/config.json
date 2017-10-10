@@ -1,4 +1,6 @@
 {
     "prefix": "!",
-    "autocleanup": 120
+    "autocleanup": 120,
+    "rolename": "Bot Abuser",
+    "restrictusage": false
 }

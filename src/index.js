@@ -111,10 +111,10 @@ const GetVoicePlayers = (message) => {
   }
 };
 
-const SendToChannel = (originalMessage, data) => {
+const SendToChannel = (originalMessage, data, autoDeleteable = false) => {
   const responseMessage = originalMessage.channel.send(data);
   responseMessage.then((message) => {
-    if (config.autocleanup > 0) {
+    if (config.autocleanup > 0 && autoDeleteable) {
       message.delete(config.autocleanup*1000).catch((error) => {
         originalMessage.channel.send(`I can't delete a message: ${error}`);
       });
@@ -134,8 +134,10 @@ client.on("message", (message) => {
   try {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
+    const isAdmin = message.channel.permissionsFor(message.member).hasPermission("ADMINISTRATOR");
+    const isUser = message.member.roles.has(config.rolename);
 
-    if(!message.content.startsWith(config.prefix) || message.author.bot) return;
+    if(!message.content.startsWith(config.prefix) || message.author.bot || (!isUser && config.restrictusage)) return;
 
     if (command === 'teams') {
       const numberOfTeams = parseInt(args.shift(), 10);
@@ -162,10 +164,10 @@ client.on("message", (message) => {
         playerList
       );
 
-      SendToChannel(message, TeamsToString(Teams));
+      SendToChannel(message, TeamsToString(Teams), true);
     }
 
-    if (command === 'config') {
+    if (command === 'config' && isAdmin) {
       let newConfig = config;
 
       switch(args[0]) {
@@ -177,12 +179,26 @@ client.on("message", (message) => {
           newConfig.autocleanup = args[1];
           break;
         }
+        case 'rolename': {
+          newConfig.rolename = args[1];
+          break;
+        }
+        case 'restrictusage': {
+          newConfig.restrictusage = args[1];
+          break;
+        }
 
         default: {}
       }
       UpdateConfig(newConfig);
-      SendToChannel(message, `Updated ${args[0]} to ${args[1]}.`);
+      SendToChannel(message, `Updated ${args[0]} to ${args[1]}.`, true);
     }
+
+    if (command === 'loot' || command === 'graveh') {
+      SendToChannel(message, `*sprints and loots ${args[0] || 'everything'} before ${message.author.toString} can get there*`);
+    }
+
+
   } catch(e) {
     return;
   }
