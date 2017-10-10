@@ -110,6 +110,7 @@ const GetVoicePlayers = (message) => {
 };
 
 const SendToChannel = (channel, data, originalCommand = null) => {
+  console.log(channel);
   const responseMessage = channel.send(data);
   
   if (config.autocleanup > 0) {
@@ -151,7 +152,7 @@ client.on("message", (message) => {
         numberOfTeams || 2,
         playerList
       );
-      
+      console.log('sending message');
       SendToChannel(message.channel, TeamsToString(), message.id);
       // message.channel.send(TeamsToString(Teams));
     }
