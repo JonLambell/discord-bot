@@ -113,8 +113,12 @@ const SendToChannel = (originalMessage, data) => {
   const responseMessage = originalMessage.channel.send(data);
   responseMessage.then((message) => {
     if (config.autocleanup > 0) {
-      message.delete(config.autocleanup*1000);
-      originalMessage.delete(config.autocleanup*1000);
+      message.delete(config.autocleanup*1000).catch((error) => {
+        originalMessage.channel.send(`I can't delete a message: ${error}`);
+      });
+      originalMessage.delete(config.autocleanup*1000).catch((error) => {
+        originalMessage.channel.send(`I can't delete a message: ${error}`);
+      });
     }
   });
 };
