@@ -125,17 +125,19 @@ const SendToChannel = (originalMessage, data, autoDeleteable = false) => {
   });
 };
 
+const GetRoleID = (guild, roleName) => guild.roles.find("name", roleName).id;
+
 const UpdateConfig = (newConfig) => {
   config = newConfig;
   fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
-}
+};
 
 client.on("message", (message) => {
   try {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     const isAdmin = message.channel.permissionsFor(message.member).has("ADMINISTRATOR");
-    const isUser = message.member.roles.has(config.rolename);
+    const isUser = message.member.roles.has(GetRoleID(message.guild, config.rolename));
 
     console.log(`Admin: ${isAdmin}`);
     console.log(`User: ${isUser}`);
