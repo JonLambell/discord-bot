@@ -134,7 +134,7 @@ client.on("message", (message) => {
   try {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
-    const isAdmin = message.channel.permissionsFor(message.member).hasPermission("ADMINISTRATOR");
+    const isAdmin = message.channel.permissionsFor(message.member).has("ADMINISTRATOR");
     const isUser = message.member.roles.has(config.rolename);
 
     if(!message.content.startsWith(config.prefix) || message.author.bot || (!isUser && config.restrictusage)) return;
