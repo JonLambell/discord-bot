@@ -137,6 +137,10 @@ client.on("message", (message) => {
     const isAdmin = message.channel.permissionsFor(message.member).has("ADMINISTRATOR");
     const isUser = message.member.roles.has(config.rolename);
 
+    console.log(isAdmin);
+    console.log(isUser);
+    console.log(config.restrictusage);
+
     if(!message.content.startsWith(config.prefix) || message.author.bot || (!isUser && config.restrictusage)) return;
 
     if (command === 'teams') {
@@ -169,29 +173,36 @@ client.on("message", (message) => {
 
     if (command === 'config' && isAdmin) {
       let newConfig = config;
+      let hasUpdated = false;
 
       switch(args[0]) {
         case 'prefix': {
           newConfig.prefix = args[1];
+          hasUpdated = true;
           break;
         }
         case 'autocleanup': {
           newConfig.autocleanup = args[1];
+          hasUpdated = true;
           break;
         }
         case 'rolename': {
           newConfig.rolename = args[1];
+          hasUpdated = true;
           break;
         }
         case 'restrictusage': {
           newConfig.restrictusage = args[1];
+          hasUpdated = true;
           break;
         }
 
         default: {}
       }
-      UpdateConfig(newConfig);
-      SendToChannel(message, `Updated ${args[0]} to ${args[1]}.`, true);
+      if (hasUpdated) {
+        UpdateConfig(newConfig);
+        SendToChannel(message, `Updated ${args[0]} to ${args[1]}.`, true);
+      }
     }
 
     if (command === 'loot' || command === 'graveh') {
