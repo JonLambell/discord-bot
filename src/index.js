@@ -139,7 +139,13 @@ client.on("message", (message) => {
     const isAdmin = message.channel.permissionsFor(message.member).has("ADMINISTRATOR");
     const isUser = message.member.roles.has(GetRoleID(message.guild, config.rolename));
 
-    if(!message.content.startsWith(config.prefix) || message.author.bot || (!isUser && config.restrictusage && !isAdmin)) return;
+    if (
+      !message.content.startsWith(config.prefix) ||
+      message.author.bot ||
+      (config.restrictusage && (!isUser || !isAdmin))
+    ) {
+      return;
+    }
 
     if (command === 'teams') {
       const numberOfTeams = parseInt(args.shift(), 10);
