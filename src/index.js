@@ -120,7 +120,7 @@ const SendToChannel = (originalMessage, data) => {
        client.deleteMessages([message, originalMessage], (error) => {
         console.log(error);
        }); 
-      }
+      });
     }
   });
 };
