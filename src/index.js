@@ -109,16 +109,22 @@ const GetVoicePlayers = (message) => {
   }
 };
 
-const SendToChannel = (channel, data, originalCommand = null) => {
-  console.log(channel);
-  const responseMessage = channel.send(data);
-  
-  if (config.autocleanup > 0) {
-    setTimeout(function () {
-      console.log(responseMessage);
-      console.log(originalCommand);
-    }, config.autocleanup*1000);
-  }
+const SendToChannel = (originalMessage, data) => {
+  const responseMessage = originalMessage.channel.send(data);
+  responseMessage.resolve((message) => {
+    if (config.autocleanup > 0) {
+      client.deleteMessage(message, {
+        wait: config.autocleanup*1000
+      }, (error) => {
+        originalMessage.channel.send(`I can't delete the message (${error}), you'll have to clean it up yourself`);
+      });
+      client.deleteMessage(originalMessage, {
+        wait: config.autocleanup*1000
+      }, (error) => {
+        originalMessage.channel.send(`I can't delete the command (${error}), you'll have to clean it up yourself`);
+      });
+    }
+  });
 };
 
 client.on("message", (message) => {
