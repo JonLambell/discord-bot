@@ -115,16 +115,11 @@ const SendToChannel = (originalMessage, data) => {
     console.log('Resolved');
     if (config.autocleanup > 0) {
       console.log('attempting a delete...');
-      client.deleteMessage(message, {
-        wait: config.autocleanup*1000
-      }, (error) => {
-        originalMessage.channel.send(`I can't delete the message (${error}), you'll have to clean it up yourself`);
-      });
-      client.deleteMessage(originalMessage, {
-        wait: config.autocleanup*1000
-      }, (error) => {
-        originalMessage.channel.send(`I can't delete the command (${error}), you'll have to clean it up yourself`);
-      });
+      setTimeout(function () {
+       client.deleteMessages([message, originalMessage], (error) => {
+        console.log(error);
+       }); 
+      }
     }
   });
 };
