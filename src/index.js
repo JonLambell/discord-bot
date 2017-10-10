@@ -169,6 +169,10 @@ client.on("message", (message) => {
       SendToChannel(message, TeamsToString(Teams), true);
     }
 
+    if (command === 'dumpconfig' && isAdmin) {
+      console.log(config);
+    }
+
     if (command === 'config' && isAdmin) {
       let newConfig = config;
       let hasUpdated = false;
