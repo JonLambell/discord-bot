@@ -1,4 +1,5 @@
 import Discord from 'discord.js';
+import fs from 'fs';
 import config from './config.json';
 import TeamGen from './teamgenerator';
 
@@ -123,6 +124,11 @@ const SendToChannel = (originalMessage, data) => {
   });
 };
 
+const UpdateConfig = (newConfig) => {
+  config = newConfig;
+  fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+}
+
 client.on("message", (message) => {
   try {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
@@ -154,19 +160,26 @@ client.on("message", (message) => {
         numberOfTeams || 2,
         playerList
       );
-      console.log('sending message');
+
       SendToChannel(message, TeamsToString(Teams));
-      // message.channel.send(TeamsToString(Teams));
     }
 
-    if (command === 'test') {
+    if (command === 'config') {
+      let newConfig = config;
 
-      const numberOfTeams = parseInt(args.shift(), 10);
-      const Teams = TeamGen.GenerateTeams(
-        numberOfTeams || 2,
-        GetVoicePlayers(message)
-      );
-      message.channel.send(TeamsToString(Teams));
+      switch(args[0]) {
+        case 'prefix': {
+          newConfig.prefix = args[1];
+          break;
+        }
+        case 'autocleanup': {
+          newConfig.autocleanup = args[1];
+          break;
+        }
+
+        default: {}
+      }
+      UpdateConfig(newConfig);
     }
   } catch(e) {
     return;
