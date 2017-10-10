@@ -181,6 +181,7 @@ client.on("message", (message) => {
         default: {}
       }
       UpdateConfig(newConfig);
+      SendToChannel(message, `Updated ${args[0]} to ${args[1]}.`);
     }
   } catch(e) {
     return;
