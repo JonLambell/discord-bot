@@ -3,5 +3,5 @@
     "autocleanup": 120,
     "rolename": "Bot Abuser",
     "restrictusage": false,
-    "presencecycletime": 0.1
+    "presencecycletime": 60
 }
