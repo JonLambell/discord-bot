@@ -26,6 +26,7 @@ export const SetPresence = (presence = GetRandomPresence(), client) => {
 }
 
 export const PresenceOff = (client) => {
+    console.log('Turning off presence');
     client.user.setPresence({
         game: {}
     });
