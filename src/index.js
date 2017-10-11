@@ -111,20 +111,20 @@ const GetVoicePlayers = (message) => {
   }
 };
 
+const CleanUpMessage = (message) => {
+  message.delete(config.autocleanup*1000).catch((error) => {
+    if (config.debuginchat) {
+      message.channel.send(`I can't delete a message: ${error}`);
+    }
+  });
+}
+
 const SendToChannel = (originalMessage, data, autoDeleteable = false) => {
   const responseMessage = originalMessage.channel.send(data);
   responseMessage.then((message) => {
     if (config.autocleanup > 0 && autoDeleteable) {
-      message.delete(config.autocleanup*1000).catch((error) => {
-        if (config.debuginchat) {
-          originalMessage.channel.send(`I can't delete a message: ${error}`);
-        }
-      });
-      originalMessage.delete(config.autocleanup*1000).catch((error) => {
-        if (config.debuginchat) {
-          originalMessage.channel.send(`I can't delete a message: ${error}`);
-        }
-      });
+      CleanUpMessage(message);
+      CleanUpMessage(originalMessage);
     }
   });
 };
@@ -226,7 +226,7 @@ client.on("message", (message) => {
 
     if(command === 'presence' && isAdmin) {
       SetCMDCooldown();
-      StopPresenceCycler();
+
       if (args.length > 0) {
         switch (args[0]) {
           case 'start' : {
@@ -243,8 +243,13 @@ client.on("message", (message) => {
             break;
           }
           default: {
+            StopPresenceCycler();
             SetPresence(args.join(' '), client);
           }
+        }
+
+        if (config.autocleanup > 0) {
+          CleanUpMessage(message);
         }
       }
     }
