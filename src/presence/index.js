@@ -1,9 +1,18 @@
 import presences from './presences';
 
 let timer;
+let CurrentIndex = 0;
 
 export const GetRandomPresence = () => {
-    return presences[Math.floor(Math.random()*presences.length)];
+    let newIndex;
+    
+    do {
+        newIndex = Math.floor(Math.random()*presences.length);
+    } while(CurrentIndex == newIndex)
+    
+    CurrentIndex = newIndex;
+    
+    return presences[CurrentIndex];
 }
 
 export const SetPresence = (presence = GetRandomPresence(), client) => {
