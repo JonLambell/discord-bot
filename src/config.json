@@ -4,5 +4,5 @@
     "rolename": "Bot Abuser",
     "restrictusage": false,
     "presencecycletime": 60,
-    "commandcooldowntime": 20
+    "commandcooldowntime": 5
 }
