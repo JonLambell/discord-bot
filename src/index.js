@@ -114,10 +114,14 @@ const SendToChannel = (originalMessage, data, autoDeleteable = false) => {
   responseMessage.then((message) => {
     if (config.autocleanup > 0 && autoDeleteable) {
       message.delete(config.autocleanup*1000).catch((error) => {
-        originalMessage.channel.send(`I can't delete a message: ${error}`);
+        if (config.debuginchat) {
+          originalMessage.channel.send(`I can't delete a message: ${error}`);
+        }
       });
       originalMessage.delete(config.autocleanup*1000).catch((error) => {
-        originalMessage.channel.send(`I can't delete a message: ${error}`);
+        if (config.debuginchat) {
+          originalMessage.channel.send(`I can't delete a message: ${error}`);
+        }
       });
     }
   });
