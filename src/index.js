@@ -7,6 +7,8 @@ import { StartPresenceCycler } from './presence';
 const client = new Discord.Client();
 let config = configFile;
 
+let CommandCooldown = false;
+
 client.on("ready", () => {
   console.log("I am ready!");
 
@@ -136,6 +138,13 @@ const UpdateConfig = (newConfig) => {
   fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
 };
 
+const SetCMDCooldown = () => {
+  CommandCooldown = true;
+  setTimeout(() => {
+    CommandCooldown = false;
+  }, config.commandcooldowntime * 1000);
+}
+
 client.on("message", (message) => {
   try {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
@@ -146,12 +155,14 @@ client.on("message", (message) => {
     if (
       !message.content.startsWith(config.prefix) ||
       message.author.bot ||
+      CommandCooldown ||
       (config.restrictusage && (!isUser || !isAdmin))
     ) {
       return;
     }
 
     if (command === 'teams') {
+      SetCMDCooldown();
       const numberOfTeams = parseInt(args.shift(), 10);
 
       let playerList;
@@ -180,10 +191,12 @@ client.on("message", (message) => {
     }
 
     if (command === 'dumpconfig' && isAdmin) {
+      SetCMDCooldown();
       console.log(config);
     }
 
     if (command === 'config' && isAdmin) {
+      SetCMDCooldown();
       let newConfig = config;
       let hasUpdated = false;
 
@@ -218,10 +231,12 @@ client.on("message", (message) => {
     }
 
     if (command === 'loot' || command === 'graveh') {
+      SetCMDCooldown();
       SendToChannel(message, `*sprints and loots ${args.join(' ') || 'everything'} before ${message.author.toString()} can get there*`);
     }
 
     if (command === 'ping') {
+      SetCMDCooldown();
       SendToChannel(message, 'pong!', true);
     }
 
