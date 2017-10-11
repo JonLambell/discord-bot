@@ -2,5 +2,6 @@
     "prefix": "!",
     "autocleanup": 120,
     "rolename": "Bot Abuser",
-    "restrictusage": false
+    "restrictusage": false,
+    "presencecycletime": 0.1
 }

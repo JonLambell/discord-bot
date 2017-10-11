@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import fs from 'fs';
 import configFile from './config.json';
 import TeamGen from './teamgenerator';
+import { StartPresenceCycler, SetPresence, GetRandomPresence } from './presence';
 
 const client = new Discord.Client();
 let config = configFile;
@@ -9,12 +10,7 @@ let config = configFile;
 client.on("ready", () => {
   console.log("I am ready!");
 
-  client.user.setPresence({
-    game: {
-      type: '',
-      name: 'with your beard'
-    }
-  });
+  StartPresenceCycler(config.presencecycletime, client);
 });
 
 const TeamsToFields = (teams) => {
