@@ -2,7 +2,7 @@ import Discord from 'discord.js';
 import fs from 'fs';
 import configFile from './config.json';
 import TeamGen from './teamgenerator';
-import { StartPresenceCycler } from './presence';
+import { StartPresenceCycler, StopPresenceCycler, SetPresence, PresenceOff } from './presence';
 
 const client = new Discord.Client();
 let config = configFile;
@@ -12,7 +12,9 @@ let CommandCooldown = false;
 client.on("ready", () => {
   console.log("I am ready!");
 
-  StartPresenceCycler(config.presencecycletime, client);
+  if (config.randompresence) {
+    StartPresenceCycler(config.presencecycletime, client);
+  }
 });
 
 const TeamsToFields = (teams) => {
@@ -138,6 +140,14 @@ const GetRoleID = (guild, roleName) => {
 };
 
 const UpdateConfig = (prop, value) => {
+  let convertVal = value;
+  if (value === 'false') {
+    convertVal = false;
+  } else if (value === 'true') {
+    convertVal = true;
+  } else if (!isNaN(value)) {
+    convertVal = parseInt(value, 10);
+  }
   config[prop] = value;
   fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
 };
@@ -210,6 +220,31 @@ client.on("message", (message) => {
     if (command === 'loot' || command === 'graveh') {
       SetCMDCooldown();
       SendToChannel(message, `*sprints and loots ${args.join(' ') || 'everything'} before ${message.author.toString()} can get there*`);
+    }
+
+    if(command === 'presence' && isAdmin) {
+      SetCMDCooldown();
+      StopPresenceCycler();
+      if (args.length > 0) {
+        switch (args[0]) {
+          case 'start' : {
+            StartPresenceCycler(config.presencecycletime, client);
+            break;
+          }
+          case 'stop': {
+            StopPresenceCycler();
+            PresenceOff();
+            break;
+          }
+          case 'pause': {
+            StopPresenceCycler();
+            break;
+          }
+          default: {
+            SetPresence(args.join(' '), client);
+          }
+        }
+      }
     }
 
     if (command === 'ping') {
