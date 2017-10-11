@@ -141,14 +141,16 @@ const GetRoleID = (guild, roleName) => {
 
 const UpdateConfig = (prop, value) => {
   let convertVal = value;
-  if (value === 'false') {
+
+  if (value.toLowerCase() === 'false') {
     convertVal = false;
-  } else if (value === 'true') {
+  } else if (value.toLowerCase() === 'true') {
     convertVal = true;
   } else if (!isNaN(value)) {
     convertVal = parseInt(value, 10);
   }
-  config[prop] = value;
+
+  config[prop] = convertVal;
   fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
 };
 
