@@ -6,5 +6,5 @@
     "presencecycletime": 1,
     "commandcooldowntime": 5,
     "randompresence": true,
-    "debuginchat": true
+    "debuginchat": false
 }

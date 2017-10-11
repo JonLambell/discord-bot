@@ -235,7 +235,7 @@ client.on("message", (message) => {
           }
           case 'stop': {
             StopPresenceCycler();
-            PresenceOff();
+            PresenceOff(client);
             break;
           }
           case 'pause': {

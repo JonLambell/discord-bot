@@ -25,7 +25,7 @@ export const SetPresence = (presence = GetRandomPresence(), client) => {
     });
 }
 
-export const PresenceOff = () => {
+export const PresenceOff = (client) => {
     client.user.setPresence();
 }
 
