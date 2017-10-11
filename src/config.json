@@ -3,7 +3,7 @@
     "autocleanup": 120,
     "rolename": "Bot Abuser",
     "restrictusage": false,
-    "presencecycletime": 1,
+    "presencecycletime": 60,
     "commandcooldowntime": 5,
     "randompresence": true,
     "debuginchat": false
