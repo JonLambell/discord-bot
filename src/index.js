@@ -133,8 +133,8 @@ const GetRoleID = (guild, roleName) => {
   }
 };
 
-const UpdateConfig = (newConfig) => {
-  config = newConfig;
+const UpdateConfig = (prop, value) => {
+  config[prop] = value;
   fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
 };
 
@@ -197,35 +197,8 @@ client.on("message", (message) => {
 
     if (command === 'config' && isAdmin) {
       SetCMDCooldown();
-      let newConfig = config;
-      let hasUpdated = false;
-
-      switch(args[0]) {
-        case 'prefix': {
-          newConfig.prefix = args[1];
-          hasUpdated = true;
-          break;
-        }
-        case 'autocleanup': {
-          newConfig.autocleanup = args[1];
-          hasUpdated = true;
-          break;
-        }
-        case 'rolename': {
-          newConfig.rolename = args[1];
-          hasUpdated = true;
-          break;
-        }
-        case 'restrictusage': {
-          newConfig.restrictusage = (args[1] === 'true');
-          hasUpdated = true;
-          break;
-        }
-
-        default: {}
-      }
-      if (hasUpdated) {
-        UpdateConfig(newConfig);
+      if (args.length == 2) {
+        UpdateConfig(args[0], args[1]);
         SendToChannel(message, `Updated ${args[0]} to ${args[1]}.`, true);
       }
     }
