@@ -2,7 +2,7 @@ import Discord from 'discord.js';
 import fs from 'fs';
 import configFile from './config.json';
 import TeamGen from './teamgenerator';
-import { StartPresenceCycler } from './presence';
+import { StartPresenceCycler, StopPresenceCycler, SetPresence, PresenceOff } from './presence';
 
 const client = new Discord.Client();
 let config = configFile;
@@ -12,7 +12,9 @@ let CommandCooldown = false;
 client.on("ready", () => {
   console.log("I am ready!");
 
-  StartPresenceCycler(config.presencecycletime, client);
+  if (config.randompresence) {
+    StartPresenceCycler(config.presencecycletime, client);
+  }
 });
 
 const TeamsToFields = (teams) => {
@@ -109,16 +111,20 @@ const GetVoicePlayers = (message) => {
   }
 };
 
+const CleanUpMessage = (message) => {
+  message.delete(config.autocleanup*1000).catch((error) => {
+    if (config.debuginchat) {
+      message.channel.send(`I can't delete a message: ${error}`);
+    }
+  });
+}
+
 const SendToChannel = (originalMessage, data, autoDeleteable = false) => {
   const responseMessage = originalMessage.channel.send(data);
   responseMessage.then((message) => {
     if (config.autocleanup > 0 && autoDeleteable) {
-      message.delete(config.autocleanup*1000).catch((error) => {
-        originalMessage.channel.send(`I can't delete a message: ${error}`);
-      });
-      originalMessage.delete(config.autocleanup*1000).catch((error) => {
-        originalMessage.channel.send(`I can't delete a message: ${error}`);
-      });
+      CleanUpMessage(message);
+      CleanUpMessage(originalMessage);
     }
   });
 };
@@ -133,8 +139,18 @@ const GetRoleID = (guild, roleName) => {
   }
 };
 
-const UpdateConfig = (newConfig) => {
-  config = newConfig;
+const UpdateConfig = (prop, value) => {
+  let convertVal = value;
+
+  if (value.toLowerCase() === 'false') {
+    convertVal = false;
+  } else if (value.toLowerCase() === 'true') {
+    convertVal = true;
+  } else if (!isNaN(value)) {
+    convertVal = parseInt(value, 10);
+  }
+
+  config[prop] = convertVal;
   fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
 };
 
@@ -197,35 +213,8 @@ client.on("message", (message) => {
 
     if (command === 'config' && isAdmin) {
       SetCMDCooldown();
-      let newConfig = config;
-      let hasUpdated = false;
-
-      switch(args[0]) {
-        case 'prefix': {
-          newConfig.prefix = args[1];
-          hasUpdated = true;
-          break;
-        }
-        case 'autocleanup': {
-          newConfig.autocleanup = args[1];
-          hasUpdated = true;
-          break;
-        }
-        case 'rolename': {
-          newConfig.rolename = args[1];
-          hasUpdated = true;
-          break;
-        }
-        case 'restrictusage': {
-          newConfig.restrictusage = (args[1] === 'true');
-          hasUpdated = true;
-          break;
-        }
-
-        default: {}
-      }
-      if (hasUpdated) {
-        UpdateConfig(newConfig);
+      if (args.length == 2) {
+        UpdateConfig(args[0], args[1]);
         SendToChannel(message, `Updated ${args[0]} to ${args[1]}.`, true);
       }
     }
@@ -233,6 +222,36 @@ client.on("message", (message) => {
     if (command === 'loot' || command === 'graveh') {
       SetCMDCooldown();
       SendToChannel(message, `*sprints and loots ${args.join(' ') || 'everything'} before ${message.author.toString()} can get there*`);
+    }
+
+    if(command === 'presence' && isAdmin) {
+      SetCMDCooldown();
+
+      if (args.length > 0) {
+        switch (args[0]) {
+          case 'start' : {
+            StartPresenceCycler(config.presencecycletime, client);
+            break;
+          }
+          case 'stop': {
+            StopPresenceCycler();
+            PresenceOff(client);
+            break;
+          }
+          case 'pause': {
+            StopPresenceCycler();
+            break;
+          }
+          default: {
+            StopPresenceCycler();
+            SetPresence(args.join(' '), client);
+          }
+        }
+
+        if (config.autocleanup > 0) {
+          CleanUpMessage(message);
+        }
+      }
     }
 
     if (command === 'ping') {
