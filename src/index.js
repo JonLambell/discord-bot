@@ -2,7 +2,7 @@ import Discord from 'discord.js';
 import fs from 'fs';
 import configFile from './config.json';
 import TeamGen from './teamgenerator';
-import { StartPresenceCycler, SetPresence, GetRandomPresence } from './presence';
+import { StartPresenceCycler } from './presence';
 
 const client = new Discord.Client();
 let config = configFile;
