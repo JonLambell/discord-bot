@@ -26,7 +26,7 @@ export const SetPresence = (presence = GetRandomPresence(), client) => {
 }
 
 export const PresenceOff = (client) => {
-    client.user.setPresence({ status: 'online' });
+    client.user.setPresence({ status:'online', game:{}});
 }
 
 export const StartPresenceCycler = (minutes, client) => {
