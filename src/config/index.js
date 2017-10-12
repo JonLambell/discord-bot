@@ -11,13 +11,29 @@ const LoadHerokuConfig = async () => {
         .filter(key => key.startsWith('LBCONFIG_'))
         .reduce((obj, key) => {
             delete obj[key]; 
-            obj[key.replace('LBCONFIG_', '').toLowerCase()] = config_vars[key];
+            obj[key.replace('LBCONFIG_', '').toLowerCase()] = ConvertToType(config_vars[key]);
             return obj;
         }, {});
 
         return filteredConfig;
     });
 };
+
+const ConvertToType = (value) => {
+    if (value.toLowerCase() === 'true') {
+        return true;
+    }
+
+    if (value.toLowerCase() === 'false') {
+        return false;
+    }
+
+    if (!isNaN(value)) {
+        return parseInt(value, 10);
+    }
+
+    return value;
+}
 
 export const LoadConfig = async () => {
     let heroku_config;
