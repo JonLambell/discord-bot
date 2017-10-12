@@ -47,7 +47,17 @@ export const LoadConfig = async () => {
     }
     console.log(config);
 
+    SaveConfig(config);
     return config;
+};
+
+export const SaveConfig = (config) => {
+    return await heroku_client.patch(`/apps/${defaultConfig.heroku_config.app_name}/config-vars`,
+    {
+        body: {
+            LBCONFIG_AUTOCLEANUP: 20
+        }
+    });
 };
 
 export const UpdateConfig = (prop, value) => {
