@@ -242,6 +242,10 @@ client.on("message", (message) => {
             StopPresenceCycler();
             break;
           }
+          case 'next': {
+            StopPresenceCycler();
+            StartPresenceCycler(config.presencecycletime, client);
+          }
           default: {
             StopPresenceCycler();
             SetPresence(args.join(' '), client);
