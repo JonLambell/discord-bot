@@ -6,5 +6,9 @@
     "presencecycletime": 60,
     "commandcooldowntime": 5,
     "randompresence": true,
-    "debuginchat": false
+    "debuginchat": false,
+    "heroku_config": {
+        "enabled": true,
+        "app_name": "largohbotdev"
+    }
 }

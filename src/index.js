@@ -1,11 +1,11 @@
 import Discord from 'discord.js';
 import fs from 'fs';
-import configFile from './config.json';
+import { LoadConfig } from './config';
 import TeamGen from './teamgenerator';
 import { StartPresenceCycler, StopPresenceCycler, SetPresence, PresenceOff } from './presence';
 
 const client = new Discord.Client();
-let config = configFile;
+let config = LoadConfig();
 
 let CommandCooldown = false;
 
@@ -137,21 +137,6 @@ const GetRoleID = (guild, roleName) => {
   } else {
     return false;
   }
-};
-
-const UpdateConfig = (prop, value) => {
-  let convertVal = value;
-
-  if (value.toLowerCase() === 'false') {
-    convertVal = false;
-  } else if (value.toLowerCase() === 'true') {
-    convertVal = true;
-  } else if (!isNaN(value)) {
-    convertVal = parseInt(value, 10);
-  }
-
-  config[prop] = convertVal;
-  fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
 };
 
 const SetCMDCooldown = () => {
