@@ -6,7 +6,7 @@ let config;
 const LoadHerokuConfig = () => {
     const heroku_client = new Heroku({ token: process.env.HEROKU_TOKEN });
 
-    heroku_client.get('/apps/config-vars').then(config_vars => {
+    heroku_client.get(`/apps/${defaultConfig.heroku_config.app_name}/config-vars`).then(config_vars => {
         console.log(config_vars);
     });
     console.log('Config...yay');
