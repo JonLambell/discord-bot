@@ -13,26 +13,25 @@ const LoadHerokuConfig = async () => {
           obj[key] = config_vars[key];
           return obj;
         }, {});
-        console.log(filteredConfig);
+        console.log(`Filtered: ${filteredConfig}`);
 
         return filteredConfig;
     });
-    console.log('Config...yay');
 };
 
 export const LoadConfig = async () => {
     let heroku_config;
-    console.log(defaultConfig);
+    console.log(`Default: ${defaultConfig}`);
 
     if (defaultConfig.heroku_config.enabled && process.env.HEROKU_TOKEN) {
         await LoadHerokuConfig().then((newConfig) => {
             config = Object.assign({}, defaultConfig, newConfig);
-            console.log(newConfig);
+            console.log(`New: ${newConfig}`);
         });
     } else {
         config = defaultConfig;
     }
-    console.log(config);
+    console.log(`Result: ${config}`);
 
     return config;
 };
