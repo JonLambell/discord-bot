@@ -58,7 +58,7 @@ export const SaveConfig = (config) => {
         body: {
             LBCONFIG_AUTOCLEANUP: 20
         }
-    });
+    }).then((data) => data);
 };
 
 export const UpdateConfig = (prop, value) => {
