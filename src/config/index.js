@@ -7,7 +7,13 @@ const LoadHerokuConfig = () => {
     const heroku_client = new Heroku({ token: process.env.HEROKU_TOKEN });
 
     heroku_client.get(`/apps/${defaultConfig.heroku_config.app_name}/config-vars`).then(config_vars => {
-        console.log(config_vars);
+        let filteredConfig = Object.keys(config_vars)
+        .filter(key => key.startsWith('LBCONFIG_'))
+        .reduce((obj, key) => {
+          obj[key] = config_vars[key];
+          return obj;
+        }, {});
+        console.log(filteredConfig);
     });
     console.log('Config...yay');
     config = defaultConfig;
