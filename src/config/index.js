@@ -2,9 +2,10 @@ import Heroku from 'heroku-client';
 import defaultConfig from './config.default.json';
 
 let config;
+let heroku_client;
 
 const LoadHerokuConfig = async () => {
-    const heroku_client = new Heroku({ token: process.env.HEROKU_TOKEN });
+    heroku_client = new Heroku({ token: process.env.HEROKU_TOKEN });
 
     return await heroku_client.get(`/apps/${defaultConfig.heroku_config.app_name}/config-vars`).then(config_vars => {
         let filteredConfig = Object.keys(config_vars)
