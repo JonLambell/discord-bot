@@ -1,24 +1,8 @@
-import Heroku from 'heroku-client';
 import defaultConfig from './config.default.json';
+import Redis from 'ioredis';
 
 let config;
-let heroku_client;
-
-const LoadHerokuConfig = async () => {
-    heroku_client = new Heroku({ token: process.env.HEROKU_TOKEN });
-
-    return await heroku_client.get(`/apps/${defaultConfig.heroku_config.app_name}/config-vars`).then(config_vars => {
-        let filteredConfig = Object.keys(config_vars)
-        .filter(key => key.startsWith('LBCONFIG_'))
-        .reduce((obj, key) => {
-            delete obj[key]; 
-            obj[key.replace('LBCONFIG_', '').toLowerCase()] = ConvertToType(config_vars[key]);
-            return obj;
-        }, {});
-
-        return filteredConfig;
-    });
-};
+let redis;
 
 const ConvertToType = (value) => {
     if (value.toLowerCase() === 'true') {
@@ -37,29 +21,12 @@ const ConvertToType = (value) => {
 }
 
 export const LoadConfig = async () => {
-    let heroku_config;
-
-    if (defaultConfig.heroku_config.enabled && process.env.HEROKU_TOKEN) {
-        await LoadHerokuConfig().then((newConfig) => {
-            config = Object.assign({}, defaultConfig, newConfig);
-        });
-    } else {
-        config = defaultConfig;
-    }
-    console.log(config);
-
-    // SaveConfig(config);
-    return config;
-};
-
-export const SaveConfig = async (config) => {
-    console.log('Saving config');
-    return await heroku_client.patch(`/apps/${defaultConfig.heroku_config.app_name}/config-vars`,
-    {
-        body: {
-            LBCONFIG_AUTOCLEANUP: 20
-        }
-    }).then((data) => data);
+    const redis = new Redis(process.env.REDIS_URL);
+    redis.set('foo', 'bar');
+    redis.get('foo', function (err, result) {
+      console.log(result);
+    });
+    return defaultConfig;
 };
 
 export const UpdateConfig = (prop, value) => {
