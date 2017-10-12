@@ -6,7 +6,7 @@ let config;
 const LoadHerokuConfig = async () => {
     const heroku_client = new Heroku({ token: process.env.HEROKU_TOKEN });
 
-    await heroku_client.get(`/apps/${defaultConfig.heroku_config.app_name}/config-vars`).then(config_vars => {
+    return await heroku_client.get(`/apps/${defaultConfig.heroku_config.app_name}/config-vars`).then(config_vars => {
         let filteredConfig = Object.keys(config_vars)
         .filter(key => key.startsWith('LBCONFIG_'))
         .reduce((obj, key) => {
