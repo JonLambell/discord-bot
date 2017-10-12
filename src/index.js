@@ -1,10 +1,11 @@
 import Discord from 'discord.js';
 import fs from 'fs';
-import { LoadConfig } from './config';
+import { LoadConfig, UpdateConfig } from './config';
 import TeamGen from './teamgenerator';
 import { StartPresenceCycler, StopPresenceCycler, SetPresence, PresenceOff } from './presence';
 
 const client = new Discord.Client();
+
 LoadConfig().then((config) => {
 
   let CommandCooldown = false;

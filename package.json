@@ -18,11 +18,10 @@
   },
   "homepage": "https://github.com/JonLambell/discord-bot#readme",
   "dependencies": {
+    "aws-sdk": "2.3.0",
     "babel-cli": "6.26.0",
     "babel-preset-env": "1.6.0",
     "discord.js": "11.2.1",
-    "heroku-client": "3.0.3",
-    "ioredis": "^3.1.4",
-    "uws": "^8.14.1"
+    "uws": "8.14.1"
   }
 }
