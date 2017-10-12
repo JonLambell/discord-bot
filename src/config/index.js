@@ -13,58 +13,6 @@ const ddb = new AWS.DynamoDB({
     region: 'eu-west-1'
 });
 
-const GetAWSConfigOLD = async () => {
-    await ddb.getItem(
-        Object.assign(
-            {},
-            baseAWSParams,
-            {
-                Key: {
-                    'id': {
-                        S: '1'
-                    }
-                }
-            }
-        ),
-        function(err, data) {
-            if (err) {
-                console.log("Error", err);
-            } else {
-                if (data.Item && data.Item.config) {
-                    console.log(JSON.parse(data.Item.config.S));
-
-                    return JSON.parse(data.Item.config.S);
-                } else {
-                    ddb.putItem(
-                        Object.assign(
-                            {},
-                            baseAWSParams,
-                            {
-                                Item: {
-                                    'id': {
-                                        S: '1'
-                                    },
-                                    'config': {
-                                        S: JSON.stringify(config)
-                                    }
-                                }
-                            }
-                        )
-                        , function(err, data) {
-                        if (err) {
-                            console.log("Error writing new item", err);
-                        } else {
-                            console.log("Written config to database", data.Item);
-                        }
-                    });
-                }
-            }
-        }
-    );
-
-    return;
-};
-
 const UpdateAWSConfig = async () => {
     const promise = ddb.updateItem(
         Object.assign(
