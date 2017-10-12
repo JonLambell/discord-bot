@@ -52,6 +52,7 @@ export const LoadConfig = async () => {
 };
 
 export const SaveConfig = (config) => {
+    console.log('Saving config');
     return await heroku_client.patch(`/apps/${defaultConfig.heroku_config.app_name}/config-vars`,
     {
         body: {
