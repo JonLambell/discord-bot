@@ -3,10 +3,10 @@ import defaultConfig from './config.default.json';
 
 let config;
 
-const LoadHerokuConfig = () => {
+const LoadHerokuConfig = async () => {
     const heroku_client = new Heroku({ token: process.env.HEROKU_TOKEN });
 
-    heroku_client.get(`/apps/${defaultConfig.heroku_config.app_name}/config-vars`).then(config_vars => {
+    await heroku_client.get(`/apps/${defaultConfig.heroku_config.app_name}/config-vars`).then(config_vars => {
         let filteredConfig = Object.keys(config_vars)
         .filter(key => key.startsWith('LBCONFIG_'))
         .reduce((obj, key) => {
@@ -14,16 +14,19 @@ const LoadHerokuConfig = () => {
           return obj;
         }, {});
         console.log(filteredConfig);
+
+        return filteredConfig;
     });
     console.log('Config...yay');
-    config = defaultConfig;
 };
 
 export const LoadConfig = () => {
     let heroku_config;
 
     if (defaultConfig.heroku_config.enabled && process.env.HEROKU_TOKEN) {
-        LoadHerokuConfig();
+        LoadHerokuConfig().then((newConfig) => {
+            config = defaultConfig;
+        });
     } else {
         config = defaultConfig;
     }
