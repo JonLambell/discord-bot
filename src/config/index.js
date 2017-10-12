@@ -20,11 +20,11 @@ const LoadHerokuConfig = async () => {
     console.log('Config...yay');
 };
 
-export const LoadConfig = () => {
+export const LoadConfig = async () => {
     let heroku_config;
 
     if (defaultConfig.heroku_config.enabled && process.env.HEROKU_TOKEN) {
-        LoadHerokuConfig().then((newConfig) => {
+        await LoadHerokuConfig().then((newConfig) => {
             config = defaultConfig;
         });
     } else {
