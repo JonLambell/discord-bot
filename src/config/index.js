@@ -48,7 +48,7 @@ export const LoadConfig = async () => {
     }
     console.log(config);
 
-    SaveConfig(config);
+    // SaveConfig(config);
     return config;
 };
 
