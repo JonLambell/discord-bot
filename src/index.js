@@ -52,9 +52,8 @@ LoadConfig().then((config) => {
           try {
             playerList = GetChannelUsers(GetVoiceChannel(message));
           } catch (e) {
-            message.channel.send('You need to be in a voice channel, idiot...');
-            message.channel.send('Or you can send a list of names (seperated by a space) i.e. !teams 2 Player1 Player2 Player3');
-
+            SendMessage(message, 'You need to be in a voice channel, idiot...', config.autocleanup);
+            SendMessage(message, 'Or you can send a list of names (seperated by a space) i.e. !teams 2 Player1 Player2 Player3', config.autocleanup);
             return;
           }
         } else {
@@ -68,7 +67,7 @@ LoadConfig().then((config) => {
           'string'
         );
 
-        SendMessage(message, Teams, (config.autocleanup > 0));
+        SendMessage(message, Teams, config.autocleanup);
       }
 
       if (command === 'dumpconfig' && isAdmin) {
@@ -80,7 +79,7 @@ LoadConfig().then((config) => {
         SetCMDCooldown();
         if (args.length == 2) {
           UpdateConfig(args[0], args[1]);
-          SendMessage(message, `Updated ${args[0]} to ${args[1]}.`, (config.autocleanup > 0));
+          SendMessage(message, `Updated ${args[0]} to ${args[1]}.`, config.autocleanup);
         }
       }
 
