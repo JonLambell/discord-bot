@@ -6,6 +6,7 @@ import { StartPresenceCycler, StopPresenceCycler, SetPresence, PresenceOff } fro
 import { DeleteMessage, GetChannelUsers, GetVoiceChannel, SendMessage, GetRoleID } from './utils';
 
 const client = new Discord.Client();
+const OwnerID = '146532794162479105';
 
 LoadConfig().then((config) => {
 
@@ -30,16 +31,15 @@ LoadConfig().then((config) => {
     try {
       const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
       const command = args.shift().toLowerCase();
+      const isOwner = (message.member.id == OwnerID);
       const isAdmin = message.channel.permissionsFor(message.member).has("ADMINISTRATOR");
       const isUser = message.member.roles.has(GetRoleID(message.guild, config.rolename));
-
-      console.log(message.member.id);
 
       if (
         !message.content.startsWith(config.prefix) ||
         message.author.bot ||
         CommandCooldown ||
-        (config.restrictusage && (!isUser || !isAdmin))
+        (config.restrictusage && (!isUser || !isAdmin || !isOwner))
       ) {
         return;
       }
@@ -72,7 +72,7 @@ LoadConfig().then((config) => {
         SendMessage(message, Teams, config.autocleanup);
       }
 
-      if (command === 'dumpconfig' && isAdmin) {
+      if (command === 'dumpconfig' && isOwner) {
         SetCMDCooldown();
         console.log(config);
       }
@@ -90,7 +90,7 @@ LoadConfig().then((config) => {
         SendMessage(message, `*sprints and loots ${args.join(' ') || 'everything'} before ${message.author.toString()} can get there*`);
       }
 
-      if(command === 'presence' && isAdmin) {
+      if(command === 'presence' && isOwner) {
         SetCMDCooldown();
 
         if (args.length > 0) {
