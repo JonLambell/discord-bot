@@ -59,6 +59,73 @@ const GenerateTeams = (
   return Teams;
 }
 
+const TeamsToFields = (teams) => {
+  const fields = [];
+  
+  for (const key of Object.keys(teams)) {
+    let players = '';
+
+    teams[key].players.forEach((player) => {
+      players = `${players}${player}\n`;
+    });
+
+    const field = {
+      name: key,
+      value: players
+    }
+
+    fields.push(field);
+  }
+
+  return fields;
+};
+
+const TeamsToString = (teams) => {
+  let message = '';
+
+  for (const key of Object.keys(teams)) {
+    let players = '';
+
+    teams[key].players.forEach((player) => {
+      players = `${players}${player}\n`;
+    });
+
+    message = `${message}**${key}**\n${players}\n\n`;
+  }
+
+  message = `${message}*Time for some Chicken Dinner!*`;
+
+  return message;
+}
+
+const GetTeamsEmbed = (teams, client) => {
+  return {
+    embed: {
+      color: 3447003,
+      author: {
+        name: client.user.username,
+        icon_url: client.user.avatarURL
+      },
+      title: "The teams are...",
+      fields: TeamsToFields(teams),
+      timestamp: new Date(),
+      footer: {
+        icon_url: client.user.avatarURL,
+        text: "© GFX Mofa phuka"
+      }
+    }
+  }
+};
+
+const FormattedTeams = (teams, style = 'embed', client = null) => {
+  if (style === 'embed' || client == null) {
+    return TeamsToString(teams);
+  }
+
+  return GetTeamsEmbed(teams, client);
+}
+
 export default {
-    GenerateTeams
+    GenerateTeams,
+    FormattedTeams
 };

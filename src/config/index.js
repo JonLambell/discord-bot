@@ -1,5 +1,4 @@
 import defaultConfig from './config.default.json';
-import Redis from 'ioredis';
 import AWS from 'aws-sdk';
 
 let config = defaultConfig;
