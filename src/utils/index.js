@@ -1,13 +1,5 @@
-import DeleteMessage from './delete-message';
-import GetChannelUsers from './get-channel-users';
-import GetVoiceChannel from './get-voice-cannel';
-import SendMessage from './send-message';
-import GetRoleID from './get-role-id';
-
-export default {
-    DeleteMessage,
-    GetChannelUsers,
-    GetVoiceChannel,
-    SendMessage,
-    GetRoleID
-}
+export { default as DeleteMessage } from './delete-message';
+export { default as GetChannelUsers } from './get-channel-users';
+export { default as GetVoiceChannel } from './get-voice-cannel';
+export { default as SendMessage } from './send-message';
+export { default as GetRoleID } from './get-role-id';
