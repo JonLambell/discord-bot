@@ -7,12 +7,6 @@ import { DeleteMessage, GetChannelUsers, GetVoiceChannel, SendMessage, GetRoleID
 
 const client = new Discord.Client();
 
-console.log(DeleteMessage);
-console.log(GetChannelUsers);
-console.log(GetVoiceChannel);
-console.log(SendMessage);
-console.log(GetRoleID);
-
 LoadConfig().then((config) => {
 
   let CommandCooldown = false;
@@ -124,14 +118,14 @@ LoadConfig().then((config) => {
           }
 
           if (config.autocleanup > 0) {
-            DeleteMessage(message, config.autocleanup);
+            DeleteMessage(message, config.autocleanup, config.debuginchat);
           }
         }
       }
 
       if (command === 'ping') {
         SetCMDCooldown();
-        SendMessage(message, 'pong!', (config.autocleanup > 0));
+        SendMessage(message, 'pong!', config.autocleanup, config.debuginchat);
       }
 
 

@@ -1,6 +1,6 @@
-const DeleteMessage = (message, time) => {
+const DeleteMessage = (message, time, debug = false) => {
     message.delete(time * 1000).catch((error) => {
-      if (config.debuginchat) {
+      if (debug) {
         message.channel.send(`I can't delete a message: ${error}`);
       }
     });
