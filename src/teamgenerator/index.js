@@ -125,7 +125,7 @@ const FormattedTeams = (teams, style = 'embed', client = null) => {
   return GetTeamsEmbed(teams, client);
 }
 
-export default {
+export {
     GenerateTeams,
     FormattedTeams
 };
