@@ -33,6 +33,8 @@ LoadConfig().then((config) => {
       const isAdmin = message.channel.permissionsFor(message.member).has("ADMINISTRATOR");
       const isUser = message.member.roles.has(GetRoleID(message.guild, config.rolename));
 
+      console.log(message.member.id);
+
       if (
         !message.content.startsWith(config.prefix) ||
         message.author.bot ||
