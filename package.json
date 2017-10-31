@@ -21,7 +21,7 @@
     "aws-sdk": "2.3.0",
     "babel-cli": "6.26.0",
     "babel-preset-env": "1.6.0",
-    "destiny2": "^1.1.1",
+    "destiny2": "1.1.1",
     "discord.js": "11.2.1",
     "uws": "8.14.1"
   }
