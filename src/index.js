@@ -4,7 +4,7 @@ import { LoadConfig, UpdateConfig } from './config';
 import { FormattedTeams, GenerateTeams } from './teamgenerator';
 import { StartPresenceCycler, StopPresenceCycler, SetPresence, PresenceOff } from './presence';
 import { DeleteMessage, GetChannelUsers, GetVoiceChannel, SendMessage, GetRoleID } from './utils';
-import { getCharacter } from './destiny';
+import { getMemmbershipId } from './destiny';
 
 const client = new Discord.Client();
 const OwnerID = '146532794162479105';
@@ -131,10 +131,9 @@ LoadConfig().then((config) => {
       }
 
       if (command === 'test') {
-        getCharacter(args[0]);
+        getMemmbershipId(args[0], args[1]);
       }
-
-
+      
     } catch(e) {
       console.log(e);
       return;
