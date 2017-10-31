@@ -13,7 +13,7 @@ const config = {
 export const getMemmbershipId = (displayName, platform) => {
     let membershipId;
     console.log(encodeURIComponent(displayName));
-    fetch(`https://bungie.net/Platform/Destiny2/SearchDestinyPlayer/4/Largoh%232928/`, config.options)
+    fetch(`${config.baseUrl}/SearchDestinyPlayer/${platform.toString()}/${encodeURIComponent(displayName)}/`, config.options)
     .then(res => res.json())
     .then(player => {
         console.log(player);
