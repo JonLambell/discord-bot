@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 const config = {
-    baseUrl: 'https://bungie.net/Platform/Destiny2',
+    baseUrl: 'https://www.bungie.net/Platform/Destiny2',
     options: {
         headers: {
             'X-API-Key': process.env.BUNGIE_API_KEY,
@@ -12,7 +12,7 @@ const config = {
 
 export const getMemmbershipId = (displayName, platform) => {
     let membershipId;
-    console.log(encodeURIComponent(displayName));
+    console.log(`${config.baseUrl}/SearchDestinyPlayer/${platform.toString()}/${encodeURIComponent(displayName)}/`);
     fetch(`${config.baseUrl}/SearchDestinyPlayer/${platform.toString()}/${encodeURIComponent(displayName)}/`, config.options)
     .then(res => res.json())
     .then(player => {

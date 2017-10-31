@@ -18,6 +18,7 @@ LoadConfig().then((config) => {
 
     if (config.randompresence) {
       StartPresenceCycler(config.presencecycletime, client);
+      getMemmbershipId('Largoh#2928', '4');
     }
   });
 
@@ -133,7 +134,7 @@ LoadConfig().then((config) => {
       if (command === 'test') {
         getMemmbershipId(args[0], args[1]);
       }
-      
+
     } catch(e) {
       console.log(e);
       return;
