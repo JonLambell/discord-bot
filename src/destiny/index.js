@@ -3,5 +3,7 @@ console.log(process.env.BUNGIE_API_KEY);
 const client = new Client(process.env.BUNGIE_API_KEY);
 
 export const getCharacter = () => {
-    console.log(client.getProfile('Largoh#2928', '4'));
+   client.getProfile('Largoh#2928', '4').then(data => {
+       console.log(data);
+   });
 }
