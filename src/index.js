@@ -131,7 +131,7 @@ LoadConfig().then((config) => {
       }
 
       if (command === 'test') {
-        getCharacter();
+        getCharacter(args[0]);
       }
 
 
