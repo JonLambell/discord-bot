@@ -1,5 +1,6 @@
 import defaultConfig from './config.default.json';
 import AWS from 'aws-sdk';
+import { insertMany } from '../database';
 
 let config = defaultConfig;
 let redis;
@@ -104,6 +105,7 @@ export const LoadConfig = async () => {
     await GetAWSConfig().then((data) => {
         if (data) {
             config = data;
+            insertMany('config', [config]);
         }
     });
     console.log('Config fetched from AWS: ', config);
