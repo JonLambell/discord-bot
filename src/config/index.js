@@ -5,9 +5,9 @@ let config = defaultConfig;
 
 const SaveConfig = async () => {
     return new Promise((resolve, reject) => {
-        updateRecord('config', {}, config).then((err, data) => {
+        updateRecord('config', {}, config).then((data, err) => {
             if (err) {
-                console.log("Error writing new item", err);
+                console.log("Error writing item", err);
                 return;
             }
 
