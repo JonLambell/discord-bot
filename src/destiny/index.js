@@ -24,6 +24,7 @@ export const getMembershipId = (displayName, platform) => {
 }
 
 export const getProfile = async () => {
+    console.log('Getting...')
     traveler.getProfile(
         4,
         "4611686018467836990"
