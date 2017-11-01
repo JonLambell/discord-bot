@@ -33,7 +33,7 @@ export const registerPlayer = async (discordId, displayName, platform) => {
             if (!player.Response.length) {
                 return reject('Player not found')
             }
-            updateRecord('DestinyPlayers', {user: discordId}, {$set: {membershipId: player.Response.membershipId}})
+            updateRecord('DestinyPlayers', {user: discordId}, {$set: {membershipId: player.Response[0].membershipId}})
                 .then((data, err) => {
                     if (err) {
                         console.log("Error writing item", err);
@@ -43,7 +43,7 @@ export const registerPlayer = async (discordId, displayName, platform) => {
                     console.log("Written player to database", data);
                     return data;
                 });
-            return resolve(player.Response.membershipId);
+            return resolve(player.Response[0].membershipId);
         })
         .catch(err => {
             if(err.ErrorCode == 2101) {
