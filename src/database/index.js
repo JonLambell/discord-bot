@@ -34,10 +34,10 @@ export const getRecord = (collectionName) => {
         let record;
 
         collection.findOne({}, {limit: 1}, (err, data) => {
-            if(err) {
+            if (err) {
                 console.error(err);
             }
-
+            console.log(data);
             record = data;
         });
         db.close();
