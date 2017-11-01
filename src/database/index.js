@@ -22,3 +22,26 @@ export const insertMany = (collectionName, items) => {
         db.close();
     });
 };
+
+export const getRecord = (collectionName) => {
+    MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        
+        const collection = db.collection(collectionName);
+        let record;
+
+        collection.findOne({}, {limit: 1}, (err, data) => {
+            if(err) {
+                console.error(err);
+            }
+
+            record = data;
+        });
+        db.close();
+
+        return record;
+    });
+}
