@@ -23,6 +23,15 @@ export const getMembershipId = (displayName, platform) => {
     });
 }
 
+export const getProfile = async () => {
+    traveler.getProfile(
+        4,
+        "4611686018467836990"
+    ).then((data) => {
+        console.log(data);
+    });
+}
+
 export const registerPlayer = async (discordId, displayName, platform) => {
     return new Promise((resolve, reject) => {
         traveler.searchDestinyPlayer(
@@ -33,7 +42,7 @@ export const registerPlayer = async (discordId, displayName, platform) => {
             if (!player.Response.length) {
                 return reject('Player not found')
             }
-            updateRecord('DestinyPlayers', {user: discordId}, {$set: {membershipId: player.Response[0].membershipId}})
+            updateRecord('DestinyPlayers', {user: discordId}, {$set: {membershipId: player.Response[0].membershipId, platform: platform}})
                 .then((data, err) => {
                     if (err) {
                         console.log("Error writing item", err);
