@@ -106,7 +106,7 @@ export const LoadConfig = async () => {
         .then((data) => {
             console.log('Data: ', data);
             data.prefix = '@';
-            updateRecord('config', {}, config).then(mod => {
+            updateRecord('config', {}, data).then(mod => {
                 console.log('Mod: ', mod);
             });
         });
