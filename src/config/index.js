@@ -105,16 +105,15 @@ export const LoadConfig = async () => {
     await getRecord('config')
         .then((data) => {
             console.log('Data: ', data);
+            data.prefix = '@';
+            updateRecord('config', {'_id': config._id}, config).then(mod => {
+                console.log('Mod: ', mod);
+            });
         });
 
     await GetAWSConfig().then((data) => {
         if (data) {
             config = data;
-            config.prefix = '@';
-            updateRecord('config', {'_id': config._id}, config).then(data => {
-                console.log('Data: ', data);
-            });
-
         }
     });
     console.log('Config fetched from AWS: ', config);
