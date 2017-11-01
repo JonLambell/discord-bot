@@ -102,8 +102,10 @@ const SaveAWSConfig = async () => {
 };
 
 export const LoadConfig = async () => {
-    const rec = await getRecord('config');
-    console.log(rec);
+    await getRecord('config')
+        .then((data) => {
+            console.log('Data: ', data);
+        });
 
     await GetAWSConfig().then((data) => {
         if (data) {

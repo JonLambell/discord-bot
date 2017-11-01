@@ -24,24 +24,25 @@ export const insertMany = (collectionName, items) => {
 };
 
 export const getRecord = async (collectionName) => {
-    return await MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        
-        const collection = db.collection(collectionName);
-        let record;
-
-        collection.findOne({}, {limit: 1}, (err, data) => {
+    return new Promise((resolve, reject) => {
+        MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
             if (err) {
-                console.error(err);
+                return reject(err);
             }
-            console.log(data);
-            record = data;
+            
+            const collection = db.collection(collectionName);
+            let record;
+    
+            collection.findOne({}, {limit: 1}, (err, data) => {
+                if (err) {
+                    return reject(err);
+                }
+                console.log(data);
+                record = data;
+            });
+            db.close();
+    
+            return resolve(record);
         });
-        db.close();
-
-        return record;
     });
 }
