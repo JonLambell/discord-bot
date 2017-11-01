@@ -55,7 +55,7 @@ export const updateRecord = async (collectionName, record, value) => {
             
             const collection = db.collection(collectionName);
     
-            collection.updateOne(record, value, (err, data) => {
+            collection.updateOne(record, value, {upsert:true, w: 1}, (err, data) => {
                 if (err) {
                     db.close();
                     return reject(err);
