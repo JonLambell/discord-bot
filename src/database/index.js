@@ -12,7 +12,6 @@ export const insertMany = (collectionName, items) => {
         collection.insertMany(items, (err, result) => {
             if(err) {
                 console.error(err);
-                disconnect();
                 return;
             }
     
@@ -20,6 +19,6 @@ export const insertMany = (collectionName, items) => {
             return result;
         });
 
-        disconnect();
+        db.close();
     });
 };
