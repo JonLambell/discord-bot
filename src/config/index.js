@@ -29,7 +29,7 @@ export const LoadConfig = async () => {
                 console.log('Storing config to database');
             }
         });
-        
+
     return config;
 };
 
