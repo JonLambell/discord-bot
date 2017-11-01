@@ -27,8 +27,8 @@ export const getRecord = async (collectionName) => {
     return new Promise((resolve, reject) => {
         MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
             if (err) {
-                reject(err);
-                return;
+                db.close();
+                return reject(err);
             }
             
             const collection = db.collection(collectionName);
@@ -36,13 +36,12 @@ export const getRecord = async (collectionName) => {
     
             collection.findOne({}, {limit: 1}, (err, data) => {
                 if (err) {
-                    reject(err);
-                    return;
+                    db.close();
+                    return reject(err);
                 }
-                resolve(record)
+                db.close();
+                return resolve(data)
             });
-            db.close();
-            return;
         });
     });
 }
