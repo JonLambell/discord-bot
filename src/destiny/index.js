@@ -40,7 +40,7 @@ export const registerPlayer = async (discordId, displayName, platform) => {
                         return;
                     }
         
-                    console.log("Written player to database", data);
+                    console.log("Written player to database");
                     return data;
                 });
             return resolve(player.Response[0].membershipId);
