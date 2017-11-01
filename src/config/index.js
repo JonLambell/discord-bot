@@ -22,11 +22,14 @@ export const LoadConfig = async () => {
         .then((data) => {
             if (data) {
                 config = data;
+                console.log('Config fetched from MongoDB: ', config);
+            } else {
+                console.log('Loaded default config: ', config);
+                SaveConfig();
+                console.log('Storing config to database');
             }
         });
-
-    console.log('Config fetched from MongoDB: ', config);
-
+        
     return config;
 };
 
