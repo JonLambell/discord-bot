@@ -129,7 +129,6 @@ LoadConfig().then((config) => {
         SendMessage(message, 'pong!', config.autocleanup, config.debuginchat);
       }
 
-
     } catch(e) {
       console.log(e);
       return;
