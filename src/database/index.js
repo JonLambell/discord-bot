@@ -23,8 +23,8 @@ export const insertMany = (collectionName, items) => {
     });
 };
 
-export const getRecord = (collectionName) => {
-    MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
+export const getRecord = async (collectionName) => {
+    return await MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
         if (err) {
             console.error(err);
             return;
