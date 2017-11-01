@@ -1,6 +1,6 @@
 import defaultConfig from './config.default.json';
 import AWS from 'aws-sdk';
-import { insertMany, getRecord } from '../database';
+import { insertMany, getRecord, updateRecord } from '../database';
 
 let config = defaultConfig;
 let redis;
@@ -110,6 +110,11 @@ export const LoadConfig = async () => {
     await GetAWSConfig().then((data) => {
         if (data) {
             config = data;
+            config.prefix = '@';
+            updateRecord('config', {'_id': config._id}, config).then(data => {
+                console.log('Data: ', data);
+            });
+
         }
     });
     console.log('Config fetched from AWS: ', config);

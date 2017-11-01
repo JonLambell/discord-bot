@@ -32,7 +32,6 @@ export const getRecord = async (collectionName) => {
             }
             
             const collection = db.collection(collectionName);
-            let record;
     
             collection.findOne({}, {limit: 1}, (err, data) => {
                 if (err) {
@@ -44,4 +43,26 @@ export const getRecord = async (collectionName) => {
             });
         });
     });
-}
+};
+
+export const updateRecord = async (collectionName, record, value) => {
+    return new Promise((resolve, reject) => {
+        MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
+            if (err) {
+                db.close();
+                return reject(err);
+            }
+            
+            const collection = db.collection(collectionName);
+    
+            collection.updateOne(record, value, (err, data) => {
+                if (err) {
+                    db.close();
+                    return reject(err);
+                }
+                db.close();
+                return resolve(data)
+            });
+        });
+    });
+};
