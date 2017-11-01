@@ -27,7 +27,10 @@ export const getProfile = async () => {
     console.log('Getting...')
     traveler.getProfile(
         4,
-        "4611686018467836990"
+        "4611686018467836990",
+        { components: [
+            ComponentType.Characters
+        ]}
     ).then((data) => {
         console.log(data);
     });
