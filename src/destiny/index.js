@@ -50,6 +50,7 @@ export const registerPlayer = async (discordId, displayName, platform) => {
                 console.error('There was a problem with your request: ', err);
             }
             console.error(err);
+            return reject('There was a problem with your request.');
         });
     });
 }
