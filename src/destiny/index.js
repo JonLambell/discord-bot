@@ -1,25 +1,24 @@
-import fetch from 'node-fetch';
+import Traveler from 'the-traveler';
+import { ComponentType } from 'the-traveler/build/enums';
 
-const config = {
-    baseUrl: 'https://www.bungie.net/Platform/Destiny2',
-    options: {
-        headers: {
-            'X-API-Key': process.env.BUNGIE_API_KEY,
-            'User-Agent': 'GFX / 1.0.0'
-        }
-    }
-};
+const traveler = new Traveler({
+    apikey: process.env.BUNGIE_API_KEY,
+    userAgent: 'LargohBot / v1.2.0'
+});
 
-export const getMemmbershipId = (displayName, platform) => {
-    let membershipId;
-    console.log(`${config.baseUrl}/SearchDestinyPlayer/${platform.toString()}/${encodeURIComponent(displayName)}/`);
-    fetch(`${config.baseUrl}/SearchDestinyPlayer/${platform.toString()}/${encodeURIComponent(displayName)}/`, config.options)
-    .then(res => res.json())
+export const getMembershipId = (displayName, platform) => {
+    traveler.searchDestinyPlayer(
+        platform.toString(),
+        displayName
+    )
     .then(player => {
         console.log(player);
-        //membershipId = player.Response[0].membershipId;
     })
-    .catch(err => console.error);
-
-    return membershipId;
+    .catch(err => {
+        if(err.ErrorCode == 2101) {
+            console.error('There was a problem with your request: ', err);
+        }
+        console.error(err);
+    });
 }
+
