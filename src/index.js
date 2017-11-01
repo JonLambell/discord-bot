@@ -4,7 +4,7 @@ import { LoadConfig, UpdateConfig } from './config';
 import { FormattedTeams, GenerateTeams } from './teamgenerator';
 import { StartPresenceCycler, StopPresenceCycler, SetPresence, PresenceOff } from './presence';
 import { DeleteMessage, GetChannelUsers, GetVoiceChannel, SendMessage, GetRoleID } from './utils';
-import { getMembershipId } from './destiny';
+import { registerPlayer } from './destiny';
 
 const client = new Discord.Client();
 const OwnerID = '146532794162479105';
@@ -147,10 +147,6 @@ LoadConfig().then((config) => {
       if (command === 'ping') {
         SetCMDCooldown();
         SendMessage(message, 'pong!', config.autocleanup, config.debuginchat);
-      }
-
-      if (command === 'test') {
-        getMembershipId(args[0], args[1]);
       }
 
     } catch(e) {
