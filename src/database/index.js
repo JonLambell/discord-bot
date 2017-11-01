@@ -1,37 +1,25 @@
 import { MongoClient } from 'mongodb';
 
-let database;
-let isConnected = false;
-
-const connect = () => {
+export const insertMany = (collectionName, items) => {
     MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
         if (err) {
             console.error(err);
             return;
         }
         
-        database = db;
-        isConnected = true;
-    });
-}
+        const collection = db.collection(collectionName);
 
-const disconnect = () => {
-    database.close();
-    isConnected = false;
-    database = null;
-}
-
-export const insertMany = async (collectionName, items) => {
-    await connect();
-    const collection = database.collection(collectionName);
-    collection.insertMany(items, (err, result) => {
-        if(err) {
-            console.error(err);
-            disconnect();
-            return;
-        }
+        collection.insertMany(items, (err, result) => {
+            if(err) {
+                console.error(err);
+                disconnect();
+                return;
+            }
+    
+            console.log(result);
+            return result;
+        });
 
         disconnect();
-        return result;
     });
-}
+};
