@@ -32,7 +32,7 @@ export const getProfile = async () => {
             ComponentType.Characters
         ]}
     ).then((data) => {
-        console.log(data);
+        console.log(data.Response.characters.data);
     });
 }
 
