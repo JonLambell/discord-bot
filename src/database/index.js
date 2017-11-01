@@ -21,9 +21,9 @@ const disconnect = () => {
     database = null;
 }
 
-export const insertMany = async (collection, items) => {
+export const insertMany = async (collectionName, items) => {
     await connect();
-    const collection = database.collection(collection);
+    const collection = database.collection(collectionName);
     collection.insertMany(items, (err, result) => {
         if(err) {
             console.error(err);
