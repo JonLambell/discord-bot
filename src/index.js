@@ -8,7 +8,6 @@ import { getMembershipId } from './destiny';
 
 const client = new Discord.Client();
 const OwnerID = '146532794162479105';
-getMembershipId('Largoh%232928', '4');
 
 LoadConfig().then((config) => {
 
@@ -90,6 +89,25 @@ LoadConfig().then((config) => {
       if (command === 'loot' || command === 'graveh') {
         SetCMDCooldown();
         SendMessage(message, `*sprints and loots ${args.join(' ') || 'everything'} before ${message.author.toString()} can get there*`);
+      }
+
+      if (command === 'register') {
+        SetCMDCooldown();
+        let platform;
+        switch(args[0]) {
+          case 'xbox': {
+            platform = 1;
+            break;
+          }
+          case 'psn': {
+            platform = 2;
+            break;
+          }
+          default: {
+            platform = 4;
+          }
+        };
+        registerPlayer(message.member.id, args[1], platform);
       }
 
       if(command === 'presence' && isOwner) {

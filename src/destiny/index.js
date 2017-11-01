@@ -1,5 +1,6 @@
 import Traveler from 'the-traveler';
 import { ComponentType } from 'the-traveler/build/enums';
+import { updateRecord } from '../database';
 
 const traveler = new Traveler({
     apikey: process.env.BUNGIE_API_KEY,
@@ -19,6 +20,37 @@ export const getMembershipId = (displayName, platform) => {
             console.error('There was a problem with your request: ', err);
         }
         console.error(err);
+    });
+}
+
+export const registerPlayer = async (discordId, displayName, platform) => {
+    return new Promise((resolve, reject) => {
+        traveler.searchDestinyPlayer(
+            platform.toString(),
+            encodeURIComponent(displayName)
+        )
+        .then(player => {
+            if (!player.Response.length) {
+                return reject('Player not found')
+            }
+            updateRecord('DestinyPlayers', {user: discordId}, {$set: {membershipId: player.Response.membershipId}})
+                .then((data, err) => {
+                    if (err) {
+                        console.log("Error writing item", err);
+                        return;
+                    }
+        
+                    console.log("Written player to database", data);
+                    return data;
+                });
+            return resolve(player.Response.membershipId);
+        })
+        .catch(err => {
+            if(err.ErrorCode == 2101) {
+                console.error('There was a problem with your request: ', err);
+            }
+            console.error(err);
+        });
     });
 }
 
