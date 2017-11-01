@@ -102,9 +102,9 @@ const SaveAWSConfig = async () => {
 };
 
 export const LoadConfig = async () => {
-    const rec = getRecord('config');
+    const rec = await getRecord('config');
     console.log(rec);
-    
+
     await GetAWSConfig().then((data) => {
         if (data) {
             config = data;
