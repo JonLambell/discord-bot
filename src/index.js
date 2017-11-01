@@ -4,9 +4,9 @@ import { LoadConfig, UpdateConfig } from './config';
 import { FormattedTeams, GenerateTeams } from './teamgenerator';
 import { StartPresenceCycler, StopPresenceCycler, SetPresence, PresenceOff } from './presence';
 import { DeleteMessage, GetChannelUsers, GetVoiceChannel, SendMessage, GetRoleID } from './utils';
-import { connectTest } from './database';
+import { insertMany } from './database';
 
-connectTest();
+insertMany('test', [{a: 1}, {b: 2}, {a: 3}]);
 const client = new Discord.Client();
 const OwnerID = '146532794162479105';
 
