@@ -8,7 +8,7 @@ import { getMembershipId } from './destiny';
 
 const client = new Discord.Client();
 const OwnerID = '146532794162479105';
-getMembershipId('Largoh#2928', '4');
+getMembershipId('Largoh%232928', '4');
 
 LoadConfig().then((config) => {
 
@@ -132,7 +132,7 @@ LoadConfig().then((config) => {
       }
 
       if (command === 'test') {
-        getMemmbershipId(args[0], args[1]);
+        getMembershipId(args[0], args[1]);
       }
 
     } catch(e) {
