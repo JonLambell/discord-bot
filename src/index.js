@@ -94,8 +94,9 @@ LoadConfig().then((config) => {
       }
 
       if (command === 'destiny') {
-        console.log(args);
-        tmpDestinyCommand(message.member.id, args);
+        SetCMDCooldown();
+        const response = tmpDestinyCommand(message.member.id, args);
+        SendMessage(message, `\`${response}\``, config.autocleanup);
       }
 
       if (command === 'register') {

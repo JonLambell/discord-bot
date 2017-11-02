@@ -104,23 +104,24 @@ const getStoredPlayer = async (discordMemberId) => {
     return player;
 }
 
-export const tmpDestinyCommand = async (args, discordMemberId) => {
+export const tmpDestinyCommand = async (discordMemberId, args) => {
     let queryString;
-    console.log(args);
-    if (args.length < 2) {
-        const player = await getStoredPlayer(discordMemberId);
-        console.log('player: ', player);
-        queryString = encodeURIComponent(`${args[0]} ${player.displayName} ${player.platform}`);
+
+    if (args.length > 1) {
+        queryString = encodeURIComponent(`${args.join(' ')}`);
     } else {
-        queryString = encodeURIComponent(`${args.join(' ')}`)
+        const player = await getStoredPlayer(discordMemberId);
+        queryString = encodeURIComponent(`${args[0]} ${player.displayName} ${player.platform}`);
     }
-console.log(queryString);
+
     return new Promise((resolve, reject) => {
         fetch(`https://destinycommand.com/live/api/command?query=${queryString}&token=15096086011922971859&default_console=pc`)
         .then(res => res.text())
         .then(data => {
             console.log('Data: ', data);
+            return resolve(data.replace('@System:  ', ''));
         })
+        .catch(reject);
     });
 }
 
