@@ -4,13 +4,11 @@ import { LoadConfig, UpdateConfig } from './config';
 import { FormattedTeams, GenerateTeams } from './teamgenerator';
 import { StartPresenceCycler, StopPresenceCycler, SetPresence, PresenceOff } from './presence';
 import { DeleteMessage, GetChannelUsers, GetVoiceChannel, SendMessage, GetRoleID } from './utils';
-<<<<<<< HEAD
 import { downloadManifest, registerPlayer, getCharacters, tmpDestinyCommand } from './destiny';
-=======
->>>>>>> develop
 
 const client = new Discord.Client();
 const OwnerID = '146532794162479105';
+getMembershipId('Largoh#2928', '4');
 
 downloadManifest();
 
@@ -164,7 +162,7 @@ LoadConfig().then((config) => {
         SetCMDCooldown();
         SendMessage(message, 'pong!', config.autocleanup, config.debuginchat);
       }
-
+      
       if (command === 'setcharacter') {
         getCharacters(message.member.id);
       }
