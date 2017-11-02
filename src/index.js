@@ -99,7 +99,7 @@ LoadConfig().then((config) => {
           SendMessage(message, `First register yourself with \`!register <Platform> <User>\`, ie \`!register pc Largoh#2928\`\nThen visit https://destinycommand.com for further commands`);
         } else {
           tmpDestinyCommand(message.member.id, args).then(response => {
-            SendMessage(message, `\`${response}\``, config.autocleanup);
+            SendMessage(message, `\`${response}\``);
           });
         }
       }
