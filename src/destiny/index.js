@@ -105,17 +105,14 @@ const getStoredPlayer = async (discordMemberId) => {
 }
 
 export const tmpDestinyCommand = async (discordMemberId, args) => {
-    let queryString;
-
-    if (args.length > 1) {
-        queryString = encodeURIComponent(`${args.join(' ')}`);
-    } else {
+    let url = `https://destinycommand.com/live/api/command?query=${encodeURIComponent(args.join(' '))}&platform=discord&bot=LargohBot`;
+    if (args.length < 2) {
         const player = await getStoredPlayer(discordMemberId);
-        queryString = encodeURIComponent(`${args[0]} ${player.displayName}`);
+        url = `${url}&membershipId=${encodeURIComponent(player.membershipId)}&membershipType=${encodeURIComponent(player.platform)}&displayName=${encodeURIComponent(player.displayName)}`;
     }
 
     return new Promise((resolve, reject) => {
-        fetch(`https://destinycommand.com/live/api/command?query=${queryString}&token=15096086011922971859&default_console=pc`)
+        fetch(url)
         .then(res => res.text())
         .then(data => {
             return resolve(data.replace('@System: ', ''));
