@@ -106,6 +106,7 @@ const getStoredPlayer = async (discordMemberId) => {
 
 export const tmpDestinyCommand = async (args, discordMemberId) => {
     let queryString;
+    console.log(args);
     if (args.length < 2) {
         const player = await getStoredPlayer(discordMemberId);
         console.log('player: ', player);

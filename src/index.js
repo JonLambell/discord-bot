@@ -94,6 +94,7 @@ LoadConfig().then((config) => {
       }
 
       if (command === 'destiny') {
+        console.log(args);
         tmpDestinyCommand(message.member.id, args);
       }
 
