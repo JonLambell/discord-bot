@@ -4,7 +4,7 @@ import { LoadConfig, UpdateConfig } from './config';
 import { FormattedTeams, GenerateTeams } from './teamgenerator';
 import { StartPresenceCycler, StopPresenceCycler, SetPresence, PresenceOff } from './presence';
 import { DeleteMessage, GetChannelUsers, GetVoiceChannel, SendMessage, GetRoleID } from './utils';
-import { downloadManifest, registerPlayer, getCharacters } from './destiny';
+import { downloadManifest, registerPlayer, getCharacters, tmpDestinyCommand } from './destiny';
 
 const client = new Discord.Client();
 const OwnerID = '146532794162479105';
@@ -91,6 +91,10 @@ LoadConfig().then((config) => {
       if (command === 'loot' || command === 'graveh') {
         SetCMDCooldown();
         SendMessage(message, `*sprints and loots ${args.join(' ') || 'everything'} before ${message.author.toString()} can get there*`);
+      }
+
+      if (command === 'destiny') {
+        tmpDestinyCommand(message.member.id, args);
       }
 
       if (command === 'register') {

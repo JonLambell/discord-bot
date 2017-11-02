@@ -1,5 +1,6 @@
 import Traveler from 'the-traveler';
-import Manifest from 'the-traveler/build/Manifest'
+import Manifest from 'the-traveler/build/Manifest';
+import { fetch } from 'node-fetch';
 import { ComponentType } from 'the-traveler/build/enums';
 import { updateRecord, getRecord } from '../database';
 
@@ -72,7 +73,7 @@ export const registerPlayer = async (discordId, displayName, platform) => {
             if (!player.Response.length) {
                 return reject('Player not found')
             }
-            updateRecord('DestinyPlayers', {user: discordId}, {$set: {membershipId: player.Response[0].membershipId, platform: platform}})
+            updateRecord('DestinyPlayers', {user: discordId}, {$set: {membershipId: player.Response[0].membershipId, platform: platform, displayName: displayName}})
                 .then((data, err) => {
                     if (err) {
                         console.log("Error writing item", err);
@@ -91,6 +92,33 @@ export const registerPlayer = async (discordId, displayName, platform) => {
             console.error(err);
             return reject('There was a problem with your request.');
         });
+    });
+}
+
+const getStoredPlayer = async (discordMemberId) => {
+    let player;
+    await getRecord('DestinyPlayers', {user: discordMemberId}).then(record => {
+        player = record
+    });
+
+    return player;
+}
+
+export const tmpDestinyCommand = async (args, discordMemberId) => {
+    let queryString;
+    if (args.length < 2) {
+        const player = await getStoredPlayer(discordMemberId);
+        queryString = encodeURIComponent(`${args[0]} ${player.displayName} ${player.platform}`);
+    } else {
+        queryString = encodeURIComponent(`${args[0]} ${args[1]}${args.length > 2 ? ` ${args[2]}` : ''}`)
+    }
+
+    return new Promise((resolve, reject) => {
+        fetch(`https://destinycommand.com/live/api/command?query=${queryString}&token=15096086011922971859&default_console=pc`)
+        .then(res => res.text())
+        .then(data => {
+            console.log('Data: ', data);
+        })
     });
 }
 
