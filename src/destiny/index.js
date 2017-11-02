@@ -111,7 +111,7 @@ export const tmpDestinyCommand = async (discordMemberId, args) => {
         queryString = encodeURIComponent(`${args.join(' ')}`);
     } else {
         const player = await getStoredPlayer(discordMemberId);
-        queryString = encodeURIComponent(`${args[0]} ${player.displayName} ${player.platform}`);
+        queryString = encodeURIComponent(`${args[0]} ${player.displayName}`);
     }
 
     return new Promise((resolve, reject) => {
