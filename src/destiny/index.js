@@ -118,7 +118,7 @@ export const tmpDestinyCommand = async (discordMemberId, args) => {
         fetch(`https://destinycommand.com/live/api/command?query=${queryString}&token=15096086011922971859&default_console=pc`)
         .then(res => res.text())
         .then(data => {
-            return resolve(data.replace('@System:  ', ''));
+            return resolve(data.replace('@System: ', ''));
         })
         .catch(reject);
     });
