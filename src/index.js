@@ -8,7 +8,10 @@ import { downloadManifest, registerPlayer, getCharacters, tmpDestinyCommand } fr
 
 const client = new Discord.Client();
 const OwnerID = '146532794162479105';
-getMembershipId('Largoh#2928', '4');
+
+downloadManifest();
+
+downloadManifest();
 
 downloadManifest();
 
