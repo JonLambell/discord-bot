@@ -96,7 +96,7 @@ LoadConfig().then((config) => {
       if (command === 'destiny') {
         SetCMDCooldown();
         if (args[0].toLowerCase() === 'help') {
-          SendMessage(message, `First register yourself with \`!register <Platform> <User>\`, ie \`!register pc Largoh#2928\`\nThen visit https://destinycommand.com for further commands`, config.autocleanup);
+          SendMessage(message, `First register yourself with \`!register <Platform> <User>\`, ie \`!register pc Largoh#2928\`\nThen visit https://destinycommand.com for further commands`);
         } else {
           tmpDestinyCommand(message.member.id, args).then(response => {
             SendMessage(message, `\`${response}\``, config.autocleanup);
