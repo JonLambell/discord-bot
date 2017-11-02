@@ -23,7 +23,7 @@ export const insertMany = (collectionName, items) => {
     });
 };
 
-export const getRecord = async (collectionName) => {
+export const getRecord = async (collectionName, record = {}) => {
     return new Promise((resolve, reject) => {
         MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
             if (err) {
@@ -33,7 +33,8 @@ export const getRecord = async (collectionName) => {
             
             const collection = db.collection(collectionName);
     
-            collection.findOne({}, {limit: 1}, (err, data) => {
+            collection.findOne(record, {limit: 1}, (err, data) => {
+
                 if (err) {
                     db.close();
                     return reject(err);
