@@ -112,7 +112,7 @@ export const tmpDestinyCommand = async (args, discordMemberId) => {
     } else {
         queryString = encodeURIComponent(`${args[0]} ${args[1]}${args.length > 2 ? ` ${args[2]}` : ''}`)
     }
-
+console.log(queryString);
     return new Promise((resolve, reject) => {
         fetch(`https://destinycommand.com/live/api/command?query=${queryString}&token=15096086011922971859&default_console=pc`)
         .then(res => res.text())
