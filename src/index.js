@@ -11,6 +11,8 @@ const OwnerID = '146532794162479105';
 
 downloadManifest();
 
+downloadManifest();
+
 LoadConfig().then((config) => {
 
   let CommandCooldown = false;
