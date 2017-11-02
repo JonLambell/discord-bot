@@ -4,11 +4,13 @@ import { LoadConfig, UpdateConfig } from './config';
 import { FormattedTeams, GenerateTeams } from './teamgenerator';
 import { StartPresenceCycler, StopPresenceCycler, SetPresence, PresenceOff } from './presence';
 import { DeleteMessage, GetChannelUsers, GetVoiceChannel, SendMessage, GetRoleID } from './utils';
-import { getMembershipId } from './destiny';
+import { downloadManifest, registerPlayer, getCharacters, tmpDestinyCommand } from './destiny';
 
 const client = new Discord.Client();
 const OwnerID = '146532794162479105';
 getMembershipId('Largoh#2928', '4');
+
+downloadManifest();
 
 LoadConfig().then((config) => {
 
@@ -92,6 +94,36 @@ LoadConfig().then((config) => {
         SendMessage(message, `*sprints and loots ${args.join(' ') || 'everything'} before ${message.author.toString()} can get there*`);
       }
 
+      if (command === 'destiny') {
+        SetCMDCooldown();
+        if (args[0].toLowerCase() === 'help') {
+          SendMessage(message, `First register yourself with \`!register <Platform> <User>\`, ie \`!register pc Largoh#2928\`\nThen visit https://destinycommand.com for further commands`);
+        } else {
+          tmpDestinyCommand(message.member.id, args).then(response => {
+            SendMessage(message, `\`${response}\``);
+          });
+        }
+      }
+
+      if (command === 'register') {
+        SetCMDCooldown();
+        let platform;
+        switch(args[0]) {
+          case 'xbox': {
+            platform = 1;
+            break;
+          }
+          case 'psn': {
+            platform = 2;
+            break;
+          }
+          default: {
+            platform = 4;
+          }
+        };
+        registerPlayer(message.member.id, args[1], platform);
+      }
+
       if(command === 'presence' && isOwner) {
         SetCMDCooldown();
 
@@ -130,11 +162,11 @@ LoadConfig().then((config) => {
         SetCMDCooldown();
         SendMessage(message, 'pong!', config.autocleanup, config.debuginchat);
       }
-
-      if (command === 'test') {
-        getMemmbershipId(args[0], args[1]);
+      
+      if (command === 'setcharacter') {
+        getCharacters(message.member.id);
       }
-
+      
     } catch(e) {
       console.log(e);
       return;
