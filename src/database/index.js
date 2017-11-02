@@ -34,6 +34,7 @@ export const getRecord = async (collectionName, record = {}) => {
             const collection = db.collection(collectionName);
     
             collection.findOne(record, {limit: 1}, (err, data) => {
+
                 if (err) {
                     db.close();
                     return reject(err);

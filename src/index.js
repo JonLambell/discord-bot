@@ -4,7 +4,10 @@ import { LoadConfig, UpdateConfig } from './config';
 import { FormattedTeams, GenerateTeams } from './teamgenerator';
 import { StartPresenceCycler, StopPresenceCycler, SetPresence, PresenceOff } from './presence';
 import { DeleteMessage, GetChannelUsers, GetVoiceChannel, SendMessage, GetRoleID } from './utils';
+<<<<<<< HEAD
 import { downloadManifest, registerPlayer, getCharacters, tmpDestinyCommand } from './destiny';
+=======
+>>>>>>> develop
 
 const client = new Discord.Client();
 const OwnerID = '146532794162479105';
@@ -165,7 +168,7 @@ LoadConfig().then((config) => {
       if (command === 'setcharacter') {
         getCharacters(message.member.id);
       }
-
+      
     } catch(e) {
       console.log(e);
       return;
