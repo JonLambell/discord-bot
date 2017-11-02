@@ -120,4 +120,3 @@ export const tmpDestinyCommand = async (discordMemberId, args) => {
         .catch(reject);
     });
 }
-
