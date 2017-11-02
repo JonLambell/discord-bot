@@ -1,6 +1,6 @@
 import Traveler from 'the-traveler';
 import Manifest from 'the-traveler/build/Manifest';
-import { fetch } from 'node-fetch';
+import fetch from 'node-fetch';
 import { ComponentType } from 'the-traveler/build/enums';
 import { updateRecord, getRecord } from '../database';
 
