@@ -56,12 +56,12 @@ LoadConfig().then((config) => {
 
       if (command === 'unsubscribe' || command === 'unsub') {
         const role = message.guild.roles.get('382074235327086593');
-        message.user.removeRole(role);
+        message.member.removeRole(role);
       }
 
       if (command === 'subscribe' || command === 'sub') {
         const role = message.guild.roles.get('382074235327086593');
-        message.user.addRole(role);
+        message.member.addRole(role);
       }
 
       if (command === 'teams') {
