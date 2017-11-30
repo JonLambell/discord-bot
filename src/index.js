@@ -29,6 +29,11 @@ LoadConfig().then((config) => {
       CommandCooldown = false;
     }, config.commandcooldowntime * 1000);
   }
+  
+  client.on("serverNewMember", (server, user) => {
+    console.log(server.id);
+    console.log(user);
+  });
 
   client.on("message", (message) => {
     try {
