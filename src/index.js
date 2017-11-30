@@ -30,9 +30,11 @@ LoadConfig().then((config) => {
     }, config.commandcooldowntime * 1000);
   }
   
-  client.on("serverNewMember", (server, user) => {
-    console.log(server.id);
-    console.log(user);
+  client.on("guildMemberAdd", (user) => {
+    if (user.guild.id === '374892648831385610') {
+      let role = user.guild.roles.get('382074235327086593');
+      user.addRole(role);
+    }
   });
 
   client.on("message", (message) => {
@@ -50,6 +52,16 @@ LoadConfig().then((config) => {
         (config.restrictusage && (!isUser || !isAdmin || !isOwner))
       ) {
         return;
+      }
+
+      if (command === 'unsubscribe' || command === 'unsub') {
+        const role = message.guild.roles.get('382074235327086593');
+        message.user.removeRole(role);
+      }
+
+      if (command === 'subscribe' || command === 'sub') {
+        const role = message.guild.roles.get('382074235327086593');
+        message.user.addRole(role);
       }
 
       if (command === 'teams') {
@@ -167,8 +179,12 @@ LoadConfig().then((config) => {
         SendMessage(message, 'pong!', config.autocleanup, config.debuginchat);
       }
 
-      if (command === 'setcharacter') {
-        getCharacters(message.member.id);
+      if (command === 'debug' && isOwner) {
+        
+        message.channel.guild.roles.forEach((role) => {
+          console.log(role);
+        });
+        // console.log(message);
       }
       
     } catch(e) {
