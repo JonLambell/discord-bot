@@ -54,6 +54,13 @@ LoadConfig().then((config) => {
         return;
       }
 
+      if (command === 'suball' && isOwner) {
+        const role = message.guild.roles.get('382074235327086593');
+        message.guild.members.forEach(member => {
+          member.addRole(role);
+        });
+      }
+
       if (command === 'unsubscribe' || command === 'unsub') {
         const role = message.guild.roles.get('382074235327086593');
         message.member.removeRole(role);
